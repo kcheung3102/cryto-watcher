@@ -1,0 +1,6 @@
+.title {
+    flex: 1;
+    font-weight: bold;
+    cursor: pointer;
+    color: wheat;
+}
