@@ -13,7 +13,6 @@ import { CryptoState } from "../../CryptoContext";
 export const Navbar = () => {
 
 const { currency, setCurrency } = CryptoState();
-console.log(currency);
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
