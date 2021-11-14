@@ -1,0 +1,21 @@
+.banner-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url("../../banner_image.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.banner-content {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    justify-content: space-around;
+}
+
+.tagline {
+    display: flex;
+    height: 60%;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
