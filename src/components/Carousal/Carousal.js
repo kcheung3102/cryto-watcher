@@ -8,6 +8,14 @@ import './Carosual.css'
 export const Carousal = () => {
    const [trending, setTrending] = useState([])
     const { currency, symbol  } = CryptoState();
+
+    const formatNumber = x => {
+        x = x.toString();
+        var pattern = /(-?\d+)(\d{3})/;
+        while (pattern.test(x))
+            x = x.replace(pattern, "$1,$2");
+        return x;
+    }
     
     const fetchTrendingCoins = async() => {
         const response = await fetch(TrendingCoins(currency))
@@ -54,8 +62,8 @@ export const Carousal = () => {
             {profit && "+"}
             {coin?.price_change_percentage_24h?.toFixed(2)}%
           </span>
-          <span>
-              {symbol}{coin?.current_price}
+          <span style={{ fontSize: 20, fontWeight: 500 }}>
+              {symbol}{formatNumber(coin?.current_price.toFixed(2))}
           </span>
           </Link>
       )

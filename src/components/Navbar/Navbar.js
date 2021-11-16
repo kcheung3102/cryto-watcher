@@ -33,12 +33,9 @@ const { currency, setCurrency } = CryptoState();
       <Container>
         <Toolbar>
           <Typography
-          className="title"
+           className="title"
             variant="h6"
             component="div"
-            sx={{
-              flexGrow: 1,
-            }}
           >
             CryptoWatcher
           </Typography>
