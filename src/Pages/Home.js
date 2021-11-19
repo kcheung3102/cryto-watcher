@@ -8,7 +8,10 @@ export const Home = () => {
     return (
             <>
             <Banner />
+            <Container>
             <CoinTable />
+
+            </Container>
             </>
     )
 }
