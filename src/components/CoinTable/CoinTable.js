@@ -10,6 +10,9 @@ import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CoinList } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import { Line } from 'react-chartjs-2';
 
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
@@ -19,7 +22,6 @@ export const CoinTable = () => {
 
   const handleSearch = () => {
     //filters out the coins state on key press or on search click
-
     return coins.filter((coin) => {
       coin.name.toLowerCase().includes(search) ||
       coin.symbol.toLowerCase().includes(search)
@@ -60,6 +62,12 @@ export const CoinTable = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const options = {
+    legend: {
+      display: false
+    }
+  };
+
 
 
   return (
@@ -76,7 +84,9 @@ export const CoinTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {coins.map((row) => (
+          {coins.map((row) => {
+             const profit = row.price_change_percentage_24h > 0
+             return (
             <TableRow
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -87,14 +97,49 @@ export const CoinTable = () => {
               <TableCell component="th" scope="row">
               <img src={row.image} style={{ height: 40 }} />{row.name}
               </TableCell>
-              <TableCell align="right">{row.current_price}</TableCell>
-              <TableCell align="right">
-                {formatNumber(row.price_change_percentage_24h.toFixed(2))}
+              <TableCell align="right">{symbol}{row.current_price}</TableCell>
+              <TableCell align="right"   style={{
+                            color: profit > 0 ? "rgb(14, 203, 129)" : "red",
+                            fontWeight: 500,
+                          }}>
+                {profit && "+"}
+                {formatNumber(row?.price_change_percentage_24h.toFixed(2))}%
               </TableCell>
               {/* {/* <TableCell align="right">{row.carbs}</TableCell> */}
               <TableCell align="right">{symbol}{formatNumber(row.market_cap)}</TableCell>
+              <TableCell>
+              <Line
+  data={{
+    labels: ['Jun', 'Jul', 'Aug'],
+    datasets: [
+      {
+        id: 1,
+        label: '',
+        data: [5, 6, 7],
+        borderColor: "#EEBC1D",
+      },
+      {
+        id: 2,
+        label: '',
+        data: [3, 2, 1],
+        borderColor: "#EEBC1D",
+      },
+    ],
+  
+  }}
+  options={{
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }}
+/>
+              </TableCell>
             </TableRow>
-          ))}
+             )
+          
+          })}
         </TableBody>
       </Table>
     </TableContainer>
