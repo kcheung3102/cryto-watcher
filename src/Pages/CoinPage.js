@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
-import { SingleCoin } from '../config/api';
+import { HistoricalChart, SingleCoin } from '../config/api';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CoinChart } from "../components/CoinChart/CoinChart";
+import { CryptoState } from '../CryptoContext';
+import Grid from '@mui/material/Grid';
 
 export const CoinPage = () => {
     //pass in the coins id by grabbing it from the query string 
@@ -15,6 +17,9 @@ export const CoinPage = () => {
     // set state for the currency and symbol using context api
         const { id } = useParams();
         const [coin, setCoin] = useState();
+        const [historicalData, setHistoricalData] = useState();
+        const [days, setDays] = useState(1);
+        const { currency } = CryptoState();
 
           const darkTheme = createTheme({
     palette: {
@@ -45,8 +50,9 @@ useEffect(() => {
 
     return (
         <ThemeProvider theme={darkTheme}>
-
-         <Card>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12} lg={4}>
+          <Card>
          <img   
          height="100"
          src={coin?.image.large}
@@ -61,7 +67,11 @@ useEffect(() => {
         </Typography>
          </CardContent>
          </Card>
+          </Grid>
+          <Grid item xs={12} md={12} lg={8}>
          <CoinChart  coin={coin}/>
+          </Grid>
+          </Grid>
         </ThemeProvider>
     )
 }

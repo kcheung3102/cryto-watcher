@@ -9,14 +9,16 @@ import Paper from "@mui/material/Paper";
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CoinList } from "../../config/api";
+import { HistoricalChart } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import { Line } from 'react-chartjs-2';
 
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState("");
+  const [days, setDays] = useState(7);
   const { currency, symbol } = CryptoState();
 
 
@@ -49,7 +51,6 @@ export const CoinTable = () => {
     const data = await response.json();
     setCoins(data);
   };
-
   console.log(coins);
 
   useEffect(() => {
@@ -73,7 +74,8 @@ export const CoinTable = () => {
   return (
     <ThemeProvider theme={darkTheme}>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 300 }} size="small" aria-label="a dense table">
+      <Grid item xs={12}>
+      <Table size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>Ranking</TableCell>
@@ -142,6 +144,7 @@ export const CoinTable = () => {
           })}
         </TableBody>
       </Table>
+      </Grid>
     </TableContainer>
     </ThemeProvider>
   );
