@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 import { HistoricalChart, SingleCoin } from '../config/api';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CoinChart } from "../components/CoinChart/CoinChart";
+import { CoinInfo } from "../components/CoinInfo/CoinInfo";
 import { CryptoState } from '../CryptoContext';
+import { Container } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 export const CoinPage = () => {
@@ -17,9 +17,7 @@ export const CoinPage = () => {
     // set state for the currency and symbol using context api
         const { id } = useParams();
         const [coin, setCoin] = useState();
-        const [historicalData, setHistoricalData] = useState();
-        const [days, setDays] = useState(1);
-        const { currency } = CryptoState();
+        const { currency, symbol} = CryptoState();
 
           const darkTheme = createTheme({
     palette: {
@@ -35,9 +33,8 @@ export const CoinPage = () => {
 
             const data = await response.json();
 
-            console.log(data);
-
             setCoin(data);
+            console.log(data);
         };
 
 
@@ -50,8 +47,9 @@ useEffect(() => {
 
     return (
         <ThemeProvider theme={darkTheme}>
+          <Container>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={12} lg={4}>
+            <Grid item xs={12} md={12} lg={12}>
           <Card>
          <img   
          height="100"
@@ -62,16 +60,20 @@ useEffect(() => {
             <Typography variant="h5" component="div">
                 {coin?.name}
             </Typography>
+            {/* <Typography>
+                {symbol}{coin?.market_data.current_price}
+            </Typography> */}
               <Typography variant="body2" color="text.secondary">
           {coin?.description.en.split(". ")[0]}
         </Typography>
          </CardContent>
          </Card>
           </Grid>
-          <Grid item xs={12} md={12} lg={8}>
-         <CoinChart  coin={coin}/>
+          <Grid item xs={12} md={12} lg={12}>
+         <CoinInfo  coin={coin}/>
           </Grid>
           </Grid>
+          </Container>
         </ThemeProvider>
     )
 }
