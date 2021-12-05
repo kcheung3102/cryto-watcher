@@ -100,10 +100,29 @@ export const CoinTable = () => {
       },
     },
     scales: {
-      x: [{
+      x: {
+        ticks: {
+          display: false
+        },
+        grid: {
+          display: false
+        },
+      },
+      y:{
+        ticks: {
+          display: false
+        },
+        grid: {
+          display: false
+        },
+      },
+    },
+    plugins: {
+      legend: {
         display: false
-      }]
-    }
+      }
+    },
+    redraw: true
   };
 
   return (
@@ -115,10 +134,10 @@ export const CoinTable = () => {
               <TableRow>
                 <TableCell>Ranking</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">Current Price</TableCell>
-                <TableCell align="right">Percent Change</TableCell>
-                <TableCell align="right">Market Cap</TableCell>
-                <TableCell>Last 24 Hours</TableCell>
+                <TableCell>Current Price</TableCell>
+                <TableCell>Percent Change</TableCell>
+                <TableCell>Market Cap</TableCell>
+                <TableCell>Last 7 Days</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -163,7 +182,7 @@ export const CoinTable = () => {
                     </TableCell>
                     <TableCell>
                       <Line  data={{
-                          labels: row.sparkline_in_7d.price.map((data) => {
+                          labels: row?.sparkline_in_7d.price.map((data) => {
                             let date = new Date(data.x*1000)
                             let formattedDate = moment(date).format("MM/DD/YYYY HH:mm");
                             return formattedDate;
@@ -172,7 +191,7 @@ export const CoinTable = () => {
 
                           datasets: [
                             {
-                              data: row.sparkline_in_7d.price.map((data) => data.y),
+                              data: row?.sparkline_in_7d.price.map((data) => data.y),
                               label: 'Price',
                               borderColor: "#EEBC1D",
                             }
