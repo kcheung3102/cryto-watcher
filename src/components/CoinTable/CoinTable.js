@@ -122,7 +122,6 @@ export const CoinTable = () => {
         display: false
       }
     },
-    redraw: true
   };
 
   return (
