@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Search } from "../Search/Search";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CoinList } from "../../config/api";
-import { HistoricalChart } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
@@ -22,7 +19,9 @@ import moment from "moment";
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const { currency, symbol } = CryptoState();
+  
 
   const formatSparkLine = (numbers) => {
     const sevenDaysAgo = moment().subtract(7, 'days').unix();
@@ -81,8 +80,12 @@ export const CoinTable = () => {
     const data = await response.json();
     const formattedResponse = formatMarketData(data);
     setCoins(formattedResponse);
+    setLoading(true);
   };
   console.log(coins);
+  console.log(coins.map((coin) => {
+    return coin.price_change_percentage_24h;
+  }))
 
 
   useEffect(() => {
@@ -90,7 +93,10 @@ export const CoinTable = () => {
   }, [currency]);
 
   const formatNumber = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else 
+    return null;
   };
 
   const options = {
@@ -126,6 +132,9 @@ export const CoinTable = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <Container>
+        <Search  onChange={(e) => setSearch(e.target.value)}/>
+      </Container>
       <Container>
         <Grid item xs={12}>
           <Table aria-label="a dense table">
@@ -170,9 +179,7 @@ export const CoinTable = () => {
                       }}
                     >
                       {profit && "+"}
-                      {formatNumber(
-                        row?.price_change_percentage_24h.toFixed(2)
-                      )}
+                      {row?.price_change_percentage_24h?.toFixed(2)}
                       %
                     </TableCell>
                     <TableCell align="right">
@@ -180,24 +187,32 @@ export const CoinTable = () => {
                       {formatNumber(row.market_cap)}
                     </TableCell>
                     <TableCell>
-                      <Line  data={{
-                          labels: row?.sparkline_in_7d.price.map((data) => {
-                            let date = new Date(data.x*1000)
-                            let formattedDate = moment(date).format("MM/DD/YYYY HH:mm");
-                            return formattedDate;
-                          }
-                          ),
-
-                          datasets: [
-                            {
-                              data: row?.sparkline_in_7d.price.map((data) => data.y),
-                              label: 'Price',
-                              borderColor: "#EEBC1D",
+                      { !coins ? 
+                      <CircularProgress
+                      style={{ color: "gold" }}
+                      size={150}
+                      thickness={1}
+                    /> :
+                        <Line data={{
+                            labels: row.sparkline_in_7d.price.map((data) => {
+                              let date = new Date(data.x*1000)
+                              let formattedDate = moment(date).format("MM/DD/YYYY HH:mm");
+                              return formattedDate;
                             }
-                          ]
-                      }}
-                      options={options}
-                      />
+                            ),
+  
+                            datasets: [
+                              {
+                                data: row.sparkline_in_7d.price.map((data) => data.y),
+                                label: 'Price',
+                                borderColor: "#EEBC1D",
+                              }
+                            ]
+                        }}
+                        options={options}
+                        />
+
+                      }
                     </TableCell>
                   </TableRow>
                 );
