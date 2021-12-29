@@ -17,11 +17,13 @@ import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { Container } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import SearchBar from "material-ui-search-bar";
 import moment from "moment";
 
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
-  const [search, setSearch] = useState("");
+  const [searchItem, setSearchItem] = useState("");
+  const [filteredCoins,setFilteredCoins] = useState([]);
   const { currency, symbol } = CryptoState();
 
   const formatSparkLine = (numbers) => {
@@ -53,13 +55,13 @@ export const CoinTable = () => {
     return formattedData;
   }
 
-  const handleSearch = () => {
-    //filters out the coins state on key press or on search click
-    return coins.filter((coin) => {
-      coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search);
-    });
-  };
+  const handleSearch = searchItem => {
+    if(searchItem.length > 0 && searchItem !== "") {
+    const newResults = coins.filter(coin => coin.name.toLowerCase().includes(searchItem));
+    console.log("new Results", newResults);
+    setFilteredCoins(newResults);
+    } 
+    };
 
   const darkTheme = createTheme({
     palette: {
@@ -81,8 +83,10 @@ export const CoinTable = () => {
     const data = await response.json();
     const formattedResponse = formatMarketData(data);
     setCoins(formattedResponse);
+    setFilteredCoins(formattedResponse);
   };
   console.log(coins);
+  console.log(filteredCoins);
 
 
   useEffect(() => {
@@ -127,6 +131,10 @@ export const CoinTable = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container>
+      <Grid>
+        <SearchBar value={searchItem} onChange={ value => setSearchItem(value) } onRequestSearch={ searchItem =>  handleSearch(searchItem)}/>
+      </Grid>
+      <Grid>
         <Grid item xs={12}>
           <Table aria-label="a dense table">
             <TableHead>
@@ -140,7 +148,7 @@ export const CoinTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {coins.map((row) => {
+              {filteredCoins.map((row) => {
                 const profit = row.price_change_percentage_24h > 0;
                 return (
                   <TableRow
@@ -170,9 +178,9 @@ export const CoinTable = () => {
                       }}
                     >
                       {profit && "+"}
-                      {formatNumber(
-                        row?.price_change_percentage_24h.toFixed(2)
-                      )}
+                      {
+                        row?.price_change_percentage_24h?.toFixed(2)
+                      }
                       %
                     </TableCell>
                     <TableCell align="right">
@@ -204,6 +212,7 @@ export const CoinTable = () => {
               })}
             </TableBody>
           </Table>
+          </Grid>
         </Grid>
       </Container>
     </ThemeProvider>
