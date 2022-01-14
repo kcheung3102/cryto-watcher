@@ -52,7 +52,6 @@ export const Carousal = () => {
             <span>
                 {coin?.symbol}
                 &nbsp;
-            </span>
             <span
             style={{
               color: profit > 0 ? "rgb(14, 203, 129)" : "red",
@@ -62,7 +61,8 @@ export const Carousal = () => {
             {profit && "+"}
             {coin?.price_change_percentage_24h?.toFixed(2)}%
           </span>
-          <span style={{ fontSize: 20, fontWeight: 500 }}>
+          </span>
+          <span style={{ fontSize: 22, fontWeight: 500 }}>
               {symbol}{formatNumber(coin?.current_price.toFixed(2))}
           </span>
           </Link>

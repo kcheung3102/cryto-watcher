@@ -20,8 +20,9 @@ import moment from "moment";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import { VolumeChart } from '../VolumeChart/VolumeChart';
+import { MultiTypeChart } from "../MultiTypeChart/MultiTypeChart";
 
-export const CoinInfo = ({ coin }) => {
+export const CoinInfo = ({coin}) => {
   const [historicalData, setHistoricalData] = useState();
   const [days, setDays] = useState(1);
   const { currency, symbol } = CryptoState();
@@ -80,10 +81,6 @@ export const CoinInfo = ({ coin }) => {
 
   };
 
-  const dateData = {
-    
-  }
-
   return (
     <ThemeProvider theme={darkTheme}>
       <Container>
@@ -137,6 +134,9 @@ export const CoinInfo = ({ coin }) => {
           <Grid item xs={12} lg={6}>
               <VolumeChart  historicalData={historicalData} days={days}/>
           </Grid>
+          {/* <Grid>
+            <MultiTypeChart />
+          </Grid> */}
           {/* <Grid item xs={12} lg={12}>
           {!historicalData ? (
           <CircularProgress

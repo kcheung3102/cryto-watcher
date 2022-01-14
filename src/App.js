@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar/Navbar';
 import {BrowserRouter, Route,  Routes } from 'react-router-dom';
 import { Home } from './Pages/Home';
 import { CoinPage } from './Pages/CoinPage';
+import { Login } from './components/Login/Login'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Navbar />
         <Routes>
         <Route path='/' element={<Home />}/>
+        <Route path='/login' element={<Login />}/>
         <Route path='/coins/:id' element={<CoinPage />}/>
         {/* <Route path='/' element={<Home />}/> */}
         </Routes>

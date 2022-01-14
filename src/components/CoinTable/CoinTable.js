@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Search } from "../Search/Search";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import TableContainer from '@mui/material/TableContainer';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CoinList } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
+import Paper from '@mui/material/Paper';
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { Container } from "@mui/material";
+import { SearchBar } from "../SearchBar/SearchBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import moment from "moment";
+
 
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
@@ -52,13 +55,17 @@ export const CoinTable = () => {
     return formattedData;
   }
 
-  const handleSearch = () => {
-    //filters out the coins state on key press or on search click
-    return coins.filter((coin) => {
-      coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search);
-    });
+  const handleSearch = (e) => {
+    const filteredRows = coins.filter((row) => {
+      return row.name.toLowerCase().includes(e.toLowerCase())
+    })
+    setCoins(filteredRows);
   };
+
+  const cancelSearch = () => {
+     setSearch("")
+  }
+
 
   const darkTheme = createTheme({
     palette: {
@@ -83,9 +90,7 @@ export const CoinTable = () => {
     setLoading(true);
   };
   console.log(coins);
-  console.log(coins.map((coin) => {
-    return coin.price_change_percentage_24h;
-  }))
+
 
 
   useEffect(() => {
@@ -133,11 +138,11 @@ export const CoinTable = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container>
-        <Search  onChange={(e) => setSearch(e.target.value)}/>
+          <SearchBar />
       </Container>
       <Container>
-        <Grid item xs={12}>
-          <Table aria-label="a dense table">
+      <TableContainer>
+          <Table sx={{ minWidth: 750 }} aria-label="a dense table">
             <TableHead>
               <TableRow>
                 <TableCell>Ranking</TableCell>
@@ -205,7 +210,7 @@ export const CoinTable = () => {
                               {
                                 data: row.sparkline_in_7d.price.map((data) => data.y),
                                 label: 'Price',
-                                borderColor: "#EEBC1D",
+                                borderColor: profit > 0 ? "rgb(14, 203, 129)" : "red"
                               }
                             ]
                         }}
@@ -219,7 +224,7 @@ export const CoinTable = () => {
               })}
             </TableBody>
           </Table>
-        </Grid>
+      </TableContainer>
       </Container>
     </ThemeProvider>
   );

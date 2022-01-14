@@ -1,0 +1,21 @@
+.search {
+    position: relative;
+    border-radius: 8px;
+    background-color: white;
+    margin-left: 0px;
+    width: 100%;
+}
+
+.search:hover {
+    background-color: whitesmoke;
+}
+
+.search-icon-wrapper {
+    padding: 0 2;
+    height: 100%;
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
