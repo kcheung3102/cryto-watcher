@@ -10,6 +10,7 @@ export const Crypto = createContext();
 const CryptoContext = ({ children }) => {
     const [currency, setCurrency] = useState("USD")
     const [symbol, setSymbol] = useState("$")
+    const [user, setUser] = useState(null);
 
 
     useEffect(() => {

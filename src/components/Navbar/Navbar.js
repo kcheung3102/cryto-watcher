@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { AuthModal } from "../../auth/AuthModal";
 import './Navbar.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CryptoState } from "../../CryptoContext";
@@ -49,7 +50,7 @@ const { currency, setCurrency } = CryptoState();
           <MenuItem value={"USD"}>USD</MenuItem>
           <MenuItem value={"JPY"}>JPY</MenuItem>
         </Select>
-          <Button color="inherit"> Login </Button>
+          <AuthModal />
         </Toolbar>
         </Container>
       </AppBar>
