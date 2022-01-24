@@ -16,13 +16,19 @@ import { Link } from "react-router-dom";
 import { Container } from "@mui/material";
 import { SearchBar } from "../SearchBar/SearchBar";
 import CircularProgress from "@mui/material/CircularProgress";
+import SearchBar from "material-ui-search-bar";
 import moment from "moment";
 
 
 export const CoinTable = () => {
   const [coins, setCoins] = useState([]);
+<<<<<<< HEAD
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+=======
+  const [searchItem, setSearchItem] = useState("");
+  const [filteredCoins,setFilteredCoins] = useState([]);
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
   const { currency, symbol } = CryptoState();
   
 
@@ -55,12 +61,22 @@ export const CoinTable = () => {
     return formattedData;
   }
 
+<<<<<<< HEAD
   const handleSearch = (e) => {
     const filteredRows = coins.filter((row) => {
       return row.name.toLowerCase().includes(e.toLowerCase())
     })
     setCoins(filteredRows);
   };
+=======
+  const handleSearch = searchItem => {
+    if(searchItem.length > 0 && searchItem !== "") {
+    const newResults = coins.filter(coin => coin.name.toLowerCase().includes(searchItem));
+    console.log("new Results", newResults);
+    setFilteredCoins(newResults);
+    } 
+    };
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
 
   const cancelSearch = () => {
      setSearch("")
@@ -87,9 +103,14 @@ export const CoinTable = () => {
     const data = await response.json();
     const formattedResponse = formatMarketData(data);
     setCoins(formattedResponse);
+<<<<<<< HEAD
     setLoading(true);
+=======
+    setFilteredCoins(formattedResponse);
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
   };
   console.log(coins);
+  console.log(filteredCoins);
 
 
 
@@ -138,11 +159,20 @@ export const CoinTable = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container>
+<<<<<<< HEAD
           <SearchBar />
       </Container>
       <Container>
       <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-label="a dense table">
+=======
+      <Grid>
+        <SearchBar value={searchItem} onChange={ value => setSearchItem(value) } onRequestSearch={ searchItem =>  handleSearch(searchItem)}/>
+      </Grid>
+      <Grid>
+        <Grid item xs={12}>
+          <Table aria-label="a dense table">
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
             <TableHead>
               <TableRow>
                 <TableCell>Ranking</TableCell>
@@ -154,7 +184,7 @@ export const CoinTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {coins.map((row) => {
+              {filteredCoins.map((row) => {
                 const profit = row.price_change_percentage_24h > 0;
                 return (
                   <TableRow
@@ -184,7 +214,13 @@ export const CoinTable = () => {
                       }}
                     >
                       {profit && "+"}
+<<<<<<< HEAD
                       {row?.price_change_percentage_24h?.toFixed(2)}
+=======
+                      {
+                        row?.price_change_percentage_24h?.toFixed(2)
+                      }
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
                       %
                     </TableCell>
                     <TableCell align="right">
@@ -224,7 +260,12 @@ export const CoinTable = () => {
               })}
             </TableBody>
           </Table>
+<<<<<<< HEAD
       </TableContainer>
+=======
+          </Grid>
+        </Grid>
+>>>>>>> f7dba38bf956cd35bea9a6ae4906a196a72d04ed
       </Container>
     </ThemeProvider>
   );
