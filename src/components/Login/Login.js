@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react'
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,22 +7,18 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-// import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from 'react-router-dom';
+import { GoogleButton } from '../Buttons/GoogleButton';
 
 export const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     // const [user, loading, error] = useAuthState(auth);
-    let navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
         console.log(email, password)
+
     }
 
     return (
@@ -73,7 +68,8 @@ export const Login = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              color="primary"
+              sx={{ mt: 3, mb: 2, backgroundColor:'wheat' }}
             >
               Login
             </Button>
@@ -84,9 +80,9 @@ export const Login = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+              <GoogleButton
+                style={{ width: "100%", outline: "none" }}
+              />
               </Grid>
             </Grid>
           </Box>
