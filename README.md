@@ -1,8 +1,13 @@
-# Getting Started with Create React App
+# Cryto Watcher Landing Page
+![Screen Shot 2022-07-27 at 1 03 33 PM](https://user-images.githubusercontent.com/44646134/181308092-90a7558c-1d92-49ab-93dc-36f771a1efbd.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Coin Details Page
+
+![Screen Shot 2022-07-27 at 1 07 04 PM](https://user-images.githubusercontent.com/44646134/181308504-673f2752-1a70-49d6-8a4d-9ae5947f2a24.png)
+
+## Available Scripts!
+
 
 In the project directory, you can run:
 
